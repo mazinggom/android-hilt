@@ -24,12 +24,18 @@ plugins {
 
 android {
     namespace = "com.example.android.hilt"
-    compileSdk = 35
+    compileSdk {
+        version = release(35)
+    }
 
     defaultConfig {
         applicationId = "com.example.android.hilt"
-        minSdk = 26
-        targetSdk = 35
+        minSdk {
+            version = release(26)
+        }
+        targetSdk {
+            version = release(35)
+        }
         versionCode = 1
         versionName = "1.0"
 
@@ -43,16 +49,16 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 }
 
-dependencies {
+kotlin {
+    jvmToolchain(17)
+}
 
+dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.constraintlayout)

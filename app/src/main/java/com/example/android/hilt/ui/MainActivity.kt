@@ -17,6 +17,8 @@
 package com.example.android.hilt.ui
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.example.android.hilt.R
 import com.example.android.hilt.navigator.AppNavigator
@@ -34,6 +36,14 @@ class MainActivity : AppCompatActivity() {
 
     @Inject lateinit var navigator: AppNavigator
 
+    private val backPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (supportFragmentManager.backStackEntryCount == 0) {
+                finish()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -41,13 +51,9 @@ class MainActivity : AppCompatActivity() {
         if (savedInstanceState == null) {
             navigator.navigateTo(Screens.BUTTONS)
         }
-    }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        if (supportFragmentManager.backStackEntryCount == 0) {
-            finish()
+        onBackPressedDispatcher.addCallback(this) {
+            backPressedCallback.handleOnBackPressed()
         }
     }
 }
